@@ -1,4 +1,8 @@
-﻿namespace EasterEgg
+using System.Diagnostics;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace EasterEgg
 {
     public class Character
     {
@@ -32,6 +36,35 @@
             int spd = Convert.ToInt32(Console.ReadLine());
 
             Character player = new Character(name, health, atk, def, spd);
+            player.SaveCharacterInXML();
+            Console.WriteLine($"Character {player.Name} created!");
+        }
+        public override string ToString()
+        {
+            return $"Name: {Name}\n" +
+                $"Level: {Level}\n" +
+                $"Health: {Health}\n" +
+                $"Attack: {Atk}\n" +
+                $"Defense: {Def}\n" +
+                $"Speed: {Spd}";
+        }
+        public void SaveCharacterInXML()
+        {
+            string path = "Characters.xml";
+            using (XmlWriter writer = XmlWriter.Create(path))
+            {
+                writer.WriteStartDocument();
+                writer.WriteStartElement("Character");
+                writer.WriteElementString("Name", Name);
+                writer.WriteElementString("Level", Level.ToString());
+                writer.WriteElementString("Health", Health.ToString());
+                writer.WriteElementString("Attack", Atk.ToString());
+                writer.WriteElementString("Defense", Def.ToString());
+                writer.WriteElementString("Speed", Spd.ToString());
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+                writer.Close();
+            }
         }
     }
 }
