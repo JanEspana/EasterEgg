@@ -50,20 +50,46 @@ namespace EasterEgg
         }
         public void SaveCharacterInXML()
         {
-            string path = "Characters.xml";
-            using (XmlWriter writer = XmlWriter.Create(path))
+            try
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Character");
-                writer.WriteElementString("Name", Name);
-                writer.WriteElementString("Level", Level.ToString());
-                writer.WriteElementString("Health", Health.ToString());
-                writer.WriteElementString("Attack", Atk.ToString());
-                writer.WriteElementString("Defense", Def.ToString());
-                writer.WriteElementString("Speed", Spd.ToString());
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
-                writer.Close();
+                string path = "Characters.xml";
+                using (XmlWriter writer = XmlWriter.Create(path))
+                {
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("Character");
+                    writer.WriteElementString("Name", Name);
+                    writer.WriteElementString("Level", Level.ToString());
+                    writer.WriteElementString("Health", Health.ToString());
+                    writer.WriteElementString("Attack", Atk.ToString());
+                    writer.WriteElementString("Defense", Def.ToString());
+                    writer.WriteElementString("Speed", Spd.ToString());
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                    writer.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
+        }
+        public void Battle(Character enemy)
+        {
+            int playerDamage = Atk - enemy.Def;
+            int enemyDamage = enemy.Atk - Def;
+            while (Health > 0 && enemy.Health > 0)
+            {
+                enemy.Health -= playerDamage;
+                Health -= enemyDamage;
+            }
+            if (Health <= 0)
+            {
+                Console.WriteLine("You lost the battle!");
+            }
+            else
+            {
+                Console.WriteLine("You won the battle!");
             }
         }
     }
