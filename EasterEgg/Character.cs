@@ -83,13 +83,13 @@ namespace EasterEgg
                 enemy.Health -= playerDamage;
                 Health -= enemyDamage;
             }
-            if (Health <= 0)
+            if (enemy.Health <= 0)
             {
-                Console.WriteLine("You lost the battle!");
+                Console.WriteLine($"{enemy.Name} defeated! {Name} won!");
             }
             else
             {
-                Console.WriteLine("You won the battle!");
+                Console.WriteLine($"{Name} defeated! {enemy.Name} won!");
             }
         }
     }
