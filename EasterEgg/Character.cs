@@ -53,17 +53,24 @@ namespace EasterEgg
             try
             {
                 string path = "Characters.xml";
-                // añadir un nuevo personaje al archivo XML, sin borrar los anteriores
-                XDocument doc = XDocument.Load(path);
-                XElement character = new XElement("Character",
-                new XElement("Name", Name),
-                new XElement("Level", Level),
-                new XElement("Health", Health),
-                new XElement("Atk", Atk),
-                new XElement("Def", Def),
-                new XElement("Spd", Spd));
-                doc.Element("Characters")?.Add(character);
-                doc.Save(path);
+                
+                if (File.Exists(path))
+                {
+                    XDocument doc = XDocument.Load(path);
+                    if (doc.Element("characters") == null)
+                    {
+                        doc.Add(new XElement("characters"));
+                    }
+                    XElement character = new XElement("Character",
+                    new XElement("Name", Name),
+                    new XElement("Level", Level),
+                    new XElement("Health", Health),
+                    new XElement("Atk", Atk),
+                    new XElement("Def", Def),
+                    new XElement("Spd", Spd));
+                    doc.Element("characters")?.Add(character);
+                    doc.Save(path);
+                }
             }
             catch (Exception e)
             {
@@ -91,3 +98,4 @@ namespace EasterEgg
         }
     }
 }
+
