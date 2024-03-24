@@ -53,20 +53,17 @@ namespace EasterEgg
             try
             {
                 string path = "Characters.xml";
-                using (XmlWriter writer = XmlWriter.Create(path))
-                {
-                    writer.WriteStartDocument();
-                    writer.WriteStartElement("Character");
-                    writer.WriteElementString("Name", Name);
-                    writer.WriteElementString("Level", Level.ToString());
-                    writer.WriteElementString("Health", Health.ToString());
-                    writer.WriteElementString("Attack", Atk.ToString());
-                    writer.WriteElementString("Defense", Def.ToString());
-                    writer.WriteElementString("Speed", Spd.ToString());
-                    writer.WriteEndElement();
-                    writer.WriteEndDocument();
-                    writer.Close();
-                }
+                // añadir un nuevo personaje al archivo XML, sin borrar los anteriores
+                XDocument doc = XDocument.Load(path);
+                XElement character = new XElement("Character",
+                new XElement("Name", Name),
+                new XElement("Level", Level),
+                new XElement("Health", Health),
+                new XElement("Atk", Atk),
+                new XElement("Def", Def),
+                new XElement("Spd", Spd));
+                doc.Element("Characters")?.Add(character);
+                doc.Save(path);
             }
             catch (Exception e)
             {
